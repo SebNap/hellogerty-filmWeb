@@ -1,9 +1,9 @@
 <template>
   <div>
     <el-container style="min-height: 100vh">
-      <el-aside :width="setWidth + 'px'" style="background-color: rgb(238, 241, 246)">
+      <el-aside :width="setWidth + 'px'" style="background-color: rgb(238, 241, 246); box-shadow: 2px 0 6px black">
         <el-menu :default-openeds="['1', '3']"
-                 style="min-height: 100vh; overflow-x: hidden"
+                 style="min-height: 100vh; overflow-x: hidden; border-right-color: transparent;border-top-color: transparent;border-bottom-color: transparent"
                  background-color="rgb(1,1,1)"
                  text-color="#fff"
                  active-text-color="#ffd04b"
@@ -12,8 +12,8 @@
 
         >
           <div style="height: 60px; line-height: 60px; text-align: center">
-            <img src="../assets/logo.png" alt="" style="width: 20px; position: relative; top: 5px ">
-            <b style="color: white">Gerty's Home</b>
+            <img src="../assets/moonIcon.jpg" alt="" style="width: 30px; position: relative; top: 5px ">
+            <b style="color: white"> Gerty's Home </b>
 
           </div>
 
@@ -82,8 +82,8 @@
 
 
           <el-dropdown style="text-align:right ;width: 1300px; cursor: pointer">
-            <span>王宇琪</span>
-            <i class="el-icon-setting" style="margin-left: 5px"></i>
+            <span><b>Sebastian Castellanos</b></span>
+            <i class="el-icon-user-solid" style="margin-left: 5px"></i>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item>个人信息</el-dropdown-item>
               <el-dropdown-item>退出</el-dropdown-item>
@@ -93,14 +93,54 @@
         </el-header>
 
         <el-main>
-          <el-table :data="tableData">
-            <el-table-column prop="date" label="日期" width="140">
+<!--          //search part-->
+          <div style="">
+            <el-input style="width: 279px" placeholder="Enter Film's Name" suffix-icon="el-icon-search">
+            </el-input>
+            <el-button type="info" class="ml-5"><b>Search</b></el-button>
+          </div>
+
+<!--          //new information CRUD-->
+          <div style="margin: 10px 0">
+            <el-button type="info">NEW<i class="el-icon-circle-plus-outline"></i></el-button>
+            <el-button type="danger">DELETE<i class="el-icon-remove-outline"></i></el-button>
+            <el-button >UPLOAD<i class="el-icon-upload2"></i></el-button>
+            <el-button >DOWNLOAD<i class="el-icon-download"></i></el-button>
+
+          </div>
+
+<!--          //table part-->
+          <el-table :data="tableData" border stripe>
+            <el-table-column prop="date" label=Date width="140">
             </el-table-column>
-            <el-table-column prop="name" label="姓名" width="120">
+            <el-table-column prop="name" label="Name" width="120">
             </el-table-column>
-            <el-table-column prop="address" label="地址">
+            <el-table-column prop="address" label="Address">
+            </el-table-column>
+
+            <el-table-column>
+              <template slot-scope="scope">
+                <el-button type="warning">EDIT <i class="el-icon-edit"></i></el-button>
+                <el-button type="danger">DELE <i class="el-icon-remove-outline"></i></el-button>
+              </template>
             </el-table-column>
           </el-table>
+
+          <div style="padding: 10px 0">
+            <el-pagination
+
+                :page-sizes="[5, 10, 15, 20]"
+                :page-size="10"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="55"
+
+            >
+
+            </el-pagination>
+
+
+          </div>
+
         </el-main>
       </el-container>
     </el-container>
@@ -139,7 +179,7 @@ export default {
         this.collapseBtnClass = 'el-icon-s-unfold'
       }else{
         this.setWidth = 200
-        this.collapseBtnClass = 'el-icon-s-unfold'
+        this.collapseBtnClass = 'el-icon-s-fold'
       }
 
     }

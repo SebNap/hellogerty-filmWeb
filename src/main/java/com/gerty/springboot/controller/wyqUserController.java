@@ -17,9 +17,11 @@ public class wyqUserController {
 
     @GetMapping("/")
     public List<wyqUser> index(){
-        wyqUser user = new wyqUser();
-        user.setId(1);
+        List<wyqUser> all = userMapper.findAll();
+        return all;
 
-        return userMapper.findAll();
+//        wyqUser user = new wyqUser();
+//        user.setId(1);
+//        return userMapper.findAll();
     }
 }

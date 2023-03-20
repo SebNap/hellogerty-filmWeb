@@ -74,7 +74,9 @@
         </el-menu>
       </el-aside>
 
-      <el-container>
+      <el-container
+          background-color="rgb(1,1,1)"
+      >
         <el-header style=" font-size: 20px ; border-bottom: #ccc 1px solid; line-height: 60px; display: flex">
           <div>
             <span :class="collapseBtnClass" style="cursor: pointer" @click="collapse"></span>

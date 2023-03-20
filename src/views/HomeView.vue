@@ -93,8 +93,18 @@
         </el-header>
 
         <el-main>
+<!--          //page-->
+          <el-breadcrumb separator="/">
+            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item><a href="/">后台管理</a></el-breadcrumb-item>
+            <el-breadcrumb-item>where is gerty</el-breadcrumb-item>
+          </el-breadcrumb>
+
+
+
+
 <!--          //search part-->
-          <div style="">
+          <div style="margin: 20px 0">
             <el-input style="width: 279px" placeholder="Enter Film's Name" suffix-icon="el-icon-search">
             </el-input>
             <el-button type="info" class="ml-5"><b>Search</b></el-button>

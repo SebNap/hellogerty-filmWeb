@@ -123,12 +123,14 @@
 
 <!--          //table part-->
           <el-table :data="tableData" border stripe>
-            <el-table-column prop="date" label=Date width="140">
-            </el-table-column>
-            <el-table-column prop="name" label="Name" width="120">
-            </el-table-column>
-            <el-table-column prop="address" label="Address">
-            </el-table-column>
+            <el-table-column prop="id" label="ID" width="60"></el-table-column>
+            <el-table-column prop="username" label=UserName width="100"></el-table-column>
+            <el-table-column prop="nickname" label="NickName" width="100"></el-table-column>
+            <el-table-column prop="email" label="Email"></el-table-column>
+            <el-table-column prop="phone" label="PhoneNum"></el-table-column>
+            <el-table-column prop="address" label="Address"></el-table-column>
+
+
 
             <el-table-column>
               <template slot-scope="scope">
@@ -137,17 +139,16 @@
               </template>
             </el-table-column>
           </el-table>
-
           <div style="padding: 10px 0">
             <el-pagination
-
-                :page-sizes="[5, 10, 15, 20]"
-                :page-size="10"
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="pageNum"
+                :page-sizes="[2, 5, 10, 20]"
+                :page-size="pageSize"
                 layout="total, sizes, prev, pager, next, jumper"
-                :total="55"
-
+                :total="total"
             >
-
             </el-pagination>
 
 
@@ -165,24 +166,24 @@
 
 export default {
   name: 'HomeView',
-  // components: {
-  //   HelloWorld
-  // },
   data(){
-    const item = {
-      date: '2019-12-27',
-      name: '王宇琪',
-      address: '北京交通大学家属区畅园2号楼1108'
-    };
-
     return{
+      tableData:[],
+      total: 0,
       msg:"Gerty's Home",
-      tableData: Array(10).fill(item),
+      pageNum: 1,
+      pageSize: 2,
+
       collapseBtnClass:'el-icon-s-fold',
       isCollapse: false,
       setWidth: 200
     }
   },
+  created(){
+    //请求分页查询数据
+    this.load()
+  },
+
   methods:{
     collapse(){//点击收缩按钮触发
       this.isCollapse = !this.isCollapse
@@ -194,6 +195,27 @@ export default {
         this.collapseBtnClass = 'el-icon-s-fold'
       }
 
+    },
+
+    load(){
+      fetch("http://localhost:9090/user/page?pageNum="+this.pageNum+"&pageSize="+this.pageSize)
+          .then(res => res.json()).then(res => {
+        console.log(res)
+        this.tableData = res.data
+        this.total = res.total
+      })
+    },
+
+
+    handleSizeChange(pageSize){
+      console.log(pageSize)
+      this.pageSize = pageSize
+      this.load()
+    },
+    handleCurrentChange(pageNum){
+      console.log(pageNum)
+      this.pageNum = pageNum
+      this.load()
     }
   }
 }

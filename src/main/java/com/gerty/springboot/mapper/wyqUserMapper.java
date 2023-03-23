@@ -29,4 +29,10 @@ public interface wyqUserMapper {
 
     @Delete("delete from wyq_user where id = #{id}")
     Integer deleteById(@Param("id") Integer id);
+
+    @Select("SELECT * from wyq_user LIMIT #{pageNum}, #{pageSize}")
+    List<wyqUser> selectPage(Integer pageNum, Integer pageSize);
+
+    @Select("select count(*) from wyq_user")
+    Integer countTotal();
 }

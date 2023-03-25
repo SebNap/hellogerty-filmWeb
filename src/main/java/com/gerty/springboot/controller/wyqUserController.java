@@ -22,9 +22,10 @@ public class wyqUserController {
 
     //新增和修改
     @PostMapping
-    public Integer save(@RequestBody wyqUser user){
+    public boolean save(@RequestBody wyqUser user){
         //新增或者更新皆可
-        return userService.save(user);
+        return userService.saveUser(user);
+
     }
 
     //查询所有数据
@@ -47,10 +48,15 @@ public class wyqUserController {
     //LIMIT 第二个参数 = pageSize
 
     @GetMapping("/page")
-    public Map<String, Object> findPage(@RequestParam Integer pageNum, @RequestParam Integer pageSize){//接口名字 /user/page
+    public Map<String, Object> findPage(@RequestParam Integer pageNum,
+                                        @RequestParam Integer pageSize,
+                                        @RequestParam String username
+    ){//接口名字 /user/page
         pageNum = (pageNum - 1)*pageSize;
-        List<wyqUser> data = userMapper.selectPage(pageNum, pageSize);
-        Integer total = userMapper.countTotal();
+        username ="%" + username + "%";
+
+        List<wyqUser> data = userMapper.selectPage(pageNum, pageSize, username);
+        Integer total = userMapper.countTotal(username);
 
         Map<String, Object> res = new HashMap<>();
         res.put("data",data);

@@ -1,12 +1,13 @@
 package com.gerty.springboot.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.gerty.springboot.entity.wyqUser;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
 @Mapper
-public interface wyqUserMapper {
+public interface wyqUserMapper extends BaseMapper<wyqUser> {
 
     @Select("SELECT * from wyq_user")
     List<wyqUser> findAll();
@@ -30,9 +31,9 @@ public interface wyqUserMapper {
     @Delete("delete from wyq_user where id = #{id}")
     Integer deleteById(@Param("id") Integer id);
 
-    @Select("SELECT * from wyq_user LIMIT #{pageNum}, #{pageSize}")
-    List<wyqUser> selectPage(Integer pageNum, Integer pageSize);
+    @Select("SELECT * from wyq_user where username like #{username} LIMIT #{pageNum}, #{pageSize}")
+    List<wyqUser> selectPage(Integer pageNum, Integer pageSize, String username);
 
-    @Select("select count(*) from wyq_user")
-    Integer countTotal();
+    @Select("select count(*) from wyq_user where username like #{username}")
+    Integer countTotal(String username);
 }

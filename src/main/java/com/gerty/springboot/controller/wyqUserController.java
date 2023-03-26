@@ -3,6 +3,7 @@ package com.gerty.springboot.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.gerty.springboot.controller.dto.wyqUserDTO;
 import com.gerty.springboot.entity.wyqUser;
 import com.gerty.springboot.mapper.wyqUserMapper;
 import com.gerty.springboot.service.wyqUserService;
@@ -23,6 +24,15 @@ public class wyqUserController {
 
     @Autowired
     private wyqUserService userService;
+
+    //新增和修改
+//    @PostMapping
+//    public boolean login(@RequestBody wyqUserDTO userDTO){
+//        //新增或者更新皆可
+//        return userService.login(userDTO);
+//
+//    }
+
 
     //新增和修改
     @PostMapping

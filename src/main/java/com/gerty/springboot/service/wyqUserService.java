@@ -1,6 +1,7 @@
 package com.gerty.springboot.service;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.gerty.springboot.controller.dto.wyqUserDTO;
 import com.gerty.springboot.entity.wyqUser;
 import com.gerty.springboot.mapper.wyqUserMapper;
 import org.apache.ibatis.jdbc.Null;
@@ -20,6 +21,10 @@ public class wyqUserService extends ServiceImpl<wyqUserMapper, wyqUser> {
 //        }
 
     }
+
+//    public boolean login(wyqUserDTO userDTO) {
+//
+//    }
 
 //    @Autowired
 //    private wyqUserMapper userMapper;

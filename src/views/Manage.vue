@@ -39,8 +39,8 @@ export default {
 
 
       collapseBtnClass:'el-icon-s-fold',
-      isCollapse: false,
-      setWidth: 200
+      isCollapse: true,
+      setWidth: 64
     }
   },
 

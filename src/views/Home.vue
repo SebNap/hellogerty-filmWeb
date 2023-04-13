@@ -1,5 +1,5 @@
 <template>
-<h1>这是主页</h1>
+<h1>welcome to gerty's home</h1>
 </template>
 
 <script>

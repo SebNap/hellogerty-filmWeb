@@ -8,4 +8,5 @@ import lombok.Data;
 public class wyqUserDTO {
     private String username;
     private String password;
+
 }

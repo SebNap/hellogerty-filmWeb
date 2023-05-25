@@ -2,7 +2,7 @@
   <div style="background-color: black">
     <el-container style="min-height: 100vh">
       <el-aside
-                class="box77"
+                class="box77 fixed-element"
                 :width="setWidth + 'px'"
                 style="background-color: rgb(0,0,0);
 
@@ -14,17 +14,17 @@
         <Aside :is-collapse = "isCollapse"/>
       </el-aside>
 
-      <el-container>
+      <el-header class="fixed-element" style=" border-bottom: rgba(255,255,255,0.23) 1px solid">
+        <Header :collapse-btn-class="collapseBtnClass" :collapse="collapse"/>
+
+        <!--          background-image: linear-gradient(to right, #ffcc00, #cf2626, #8d1aff);-->
+
+      </el-header>
+
+
+      <el-container class="main-content">
 <!--          background-color="rgb(1,1,1)"-->
-
-        <el-header style=" border-bottom: rgba(255,255,255,0.23) 1px solid">
-          <Header :collapse-btn-class="collapseBtnClass" :collapse="collapse"/>
-
-<!--          background-image: linear-gradient(to right, #ffcc00, #cf2626, #8d1aff);-->
-
-        </el-header>
-
-        <el-main>
+        <el-main class="main-content">
 <!--          //page-->
 <!--          当前页面的子路由会在routerView里展示-->
           <router-view/>
@@ -77,6 +77,32 @@ export default {
   /*background-size: 100% 100%;*/
   background-size: cover;
   /*overflow: hidden;*/
+
+  overflow: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE 10+ */
+}
+
+.fixed-element {
+  position: fixed;
+}
+
+.box77::-webkit-scrollbar { /* WebKit */
+  width: 0;
+  height: 0;
+}
+
+.main-content {
+  padding-top: 50px; /* Adjust based on the height of your header */
+  padding-left: 210px; /* Adjust based on the width of your aside */
+  overflow: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.main-content::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
 
 </style>

@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div style="margin-right: 200px; margin-left: 136px">
     <el-breadcrumb separator="/">
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item><a href="/">后台管理</a></el-breadcrumb-item>
+      <el-breadcrumb-item><a href="/">用户</a></el-breadcrumb-item>
       <el-breadcrumb-item>where is gerty</el-breadcrumb-item>
     </el-breadcrumb>
 
@@ -26,7 +26,7 @@
     </div>
 
     <!--          //table part-->
-    <el-table :data="tableData" border stripe>
+    <el-table :data="tableData" border stripe style="background-color: black; border-radius: 6px">
       <el-table-column prop="id" label="ID" width="60"></el-table-column>
       <el-table-column prop="username" label=UserName width="100"></el-table-column>
       <el-table-column prop="nickname" label="NickName" width="100"></el-table-column>

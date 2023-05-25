@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/Manage.vue'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 
 Vue.use(VueRouter)
 
@@ -12,7 +14,10 @@ const routes = [
     redirect: "home",
     children: [
       { path: 'home', name: 'Home', component: () => import(/* webpackChunkName: "about" */ '../views/Home.vue')},
-      { path: 'user', name: 'User', component: () => import(/* webpackChunkName: "about" */ '../views/User.vue')}
+      // { path: 'login', name: 'Login', component: () => import(/* webpackChunkName: "about" */ '../views/Login.vue')},
+      { path: 'user', name: 'User', component: () => import(/* webpackChunkName: "about" */ '../views/User.vue')},
+      { path: 'film', name: 'Film', component: () => import(/* webpackChunkName: "about" */ '../views/Film.vue')}
+
 
     ]
   },
@@ -28,6 +33,11 @@ const routes = [
     path: '/login',
     name:'Login',
     component: () => import(/* webpackChunkName: "about" */ '../views/Login.vue')
+  },
+  {
+    path: '/register',
+    name:'Register',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Register.vue')
   }
 ]
 
@@ -35,6 +45,26 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+NProgress.configure({
+  easing: 'ease',
+  speed: 400,
+  showSpinner: false,
+  trickleSpeed: 200,
+  minimum: 0.3
+})
+
+
+
+router.beforeEach((to, from, next) => {
+  // NProgress.done()
+  NProgress.start()
+  next()
+})
+
+router.afterEach(() => {
+  NProgress.done()
 })
 
 export default router

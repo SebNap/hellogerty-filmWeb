@@ -1,5 +1,6 @@
 package com.gerty.springboot.service;
 
+import com.gerty.springboot.controller.dto.wyqUserDTO;
 import com.gerty.springboot.entity.WyqUser;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +14,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IWyqUserService extends IService<WyqUser> {
 
+    wyqUserDTO login(wyqUserDTO userDTO);
+
+    WyqUser register(wyqUserDTO userDTO);
 }

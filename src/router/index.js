@@ -16,7 +16,8 @@ const routes = [
       { path: 'home', name: 'Home', component: () => import(/* webpackChunkName: "about" */ '../views/Home.vue')},
       // { path: 'login', name: 'Login', component: () => import(/* webpackChunkName: "about" */ '../views/Login.vue')},
       { path: 'user', name: 'User', component: () => import(/* webpackChunkName: "about" */ '../views/User.vue')},
-      { path: 'film', name: 'Film', component: () => import(/* webpackChunkName: "about" */ '../views/Film.vue')}
+      { path: 'film', name: 'Film', component: () => import(/* webpackChunkName: "about" */ '../views/Film.vue')},
+      { path: 'filmform', name: 'FilmForm', component: () => import(/* webpackChunkName: "about" */ '../views/Filmform.vue')}
 
 
     ]

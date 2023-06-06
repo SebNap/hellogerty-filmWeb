@@ -49,6 +49,18 @@
 
 <style>
 
+html {
+  overflow: hidden;
+}
+
+/* 或 */
+
+/*body {*/
+/*  overflow: hidden;*/
+/*}*/
+
+
+
 .meteor{
   position: absolute;
   width: 300px;

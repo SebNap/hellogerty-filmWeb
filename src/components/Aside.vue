@@ -39,8 +39,16 @@
       </template>
     </el-submenu>
 
+    <el-submenu  index="4">
+      <template slot="title">
+        <i class="el-icon-house"></i>
+        <span @click="$router.push('/filmform')" slot="title">电影</span>
+        <!--        <router-link to="/home" style="color: white; text-decoration: none"></router-link>-->
+      </template>
+    </el-submenu>
 
-    <el-submenu index="4">
+
+    <el-submenu index="5">
       <template slot="title">
         <i class="el-icon-message"></i>
         <span slot="title" >消息</span>

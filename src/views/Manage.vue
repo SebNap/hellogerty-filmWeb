@@ -48,8 +48,8 @@ export default {
   data(){
     return{
       collapseBtnClass:'el-icon-s-fold',
-      isCollapse: false,
-      setWidth: 200
+      isCollapse: true,
+      setWidth: 4,
     }
   },
   components: {
@@ -60,7 +60,7 @@ export default {
     collapse(){//点击收缩按钮触发
       this.isCollapse = !this.isCollapse
       if(this.isCollapse){
-        this.setWidth = 64
+        this.setWidth = 4
         this.collapseBtnClass = 'el-icon-s-unfold'
       }else{
         this.setWidth = 200
@@ -93,16 +93,18 @@ export default {
 }
 
 .main-content {
-  padding-top: 50px; /* Adjust based on the height of your header */
-  padding-left: 210px; /* Adjust based on the width of your aside */
-  overflow: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  padding-top: 40px; /* 根据您的页眉高度进行调整 */
+  padding-left: 210px; /* 根据您的 aside 宽度进行调整 */
+  overflow: hidden; /* 隐藏垂直滚动条 */
+  scrollbar-width: none; /* 隐藏滚动条（适用于 Firefox） */
+  -ms-overflow-style: none; /* 隐藏滚动条（适用于 IE 10+） */
 }
+
 
 .main-content::-webkit-scrollbar {
   width: 0;
   height: 0;
+  display: none;
 }
 
 </style>

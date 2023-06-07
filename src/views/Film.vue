@@ -1,63 +1,116 @@
 <template>
-  <div style="margin-right: 200px; margin-left: 136px">
-    <h1 style="color: lawngreen">a bad Film Page</h1>
-
-    <el-carousel :interval="4000" type="card" height="200px">
-      <el-carousel-item v-for="item in imgs" :key="item">
-        <img :src="item" alt="" style="height: 100%; width: 100%">
-
-        <h3 class="medium">{{ item }}</h3>
-      </el-carousel-item>
-    </el-carousel>
-    <h2 style="color: lawngreen">《The Moon》</h2>
-    <a>1</a>
-    <a style="color: #99a9bf; padding: 20px">《月球》是由邓肯·琼斯执导的一部经典科幻悬疑片，山姆·洛克威尔，罗宾·查克等参加演出。该片讲述了月球能源公司矿工萨姆・贝尔在月球基地开采能源，渴望回家的他遭遇了一起事故，随后又遇见了另一个自己，进而发现了公司不可告人秘密的故事。</a>
-
-    <div class="block">
-      <span class="demonstration">区分颜色</span>
-      <el-rate
-
-          v-model="value2"
-          :colors="colors">
-      </el-rate>
+  <div class="container">
+    <div class="movie">
+      <div class="movie-header">
+        <img :src="movieDetails.imgUrl" class="movie-image" />
+        <div class="movie-header-info">
+          <h2 class="movie-title">{{ movieDetails.name }}</h2>
+          <div class="movie-rating">{{ movieDetails.rating }}</div>
+          <el-rate v-model="movieDetails.rating" :colors="colors"></el-rate>
+          <div class="movie-info">
+            <span class="movie-release-year">{{ movieDetails.releaseYear }}</span>
+            <span class="movie-genre">{{ movieDetails.genre }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="movie-content">
+        <p class="movie-cast">{{ movieDetails.cast }}</p>
+        <h3>Comments</h3>
+        <div class="comment" v-for="comment in comments" :key="comment.id">
+          <div class="comment-header">
+            <span class="comment-author">{{ comment.author }}</span>
+            <span class="comment-date">{{ comment.date }}</span>
+          </div>
+          <p class="comment-content">{{ comment.content }}</p>
+        </div>
+      </div>
     </div>
-
   </div>
-
 </template>
 
 <script>
 export default {
-  name: "Film",
-  data(){
+  name: "MovieDetails",
+  data() {
     return {
-      imgs: [
-          'https://img2.doubanio.com/view/group_topic/l/public/p499647763.webp',
-          'https://img2.doubanio.com/view/group_topic/l/public/p499647762.webp',
-          'https://img21.mtime.cn/mg/2011/08/15/182711.21868141.jpg',
-          'https://pic3.zhimg.com/50/v2-a3d0bf3775178d3147c284de1ddd090a_hd.jpg'
-
-      ]
-    }
-  }
-}
+      movieDetails: {
+        imgUrl: 'https://m.media-amazon.com/images/M/MV5BMDU2ZWJlMjktMTRhMy00ZTA5LWEzNDgtYmNmZTEwZTViZWJkXkEyXkFqcGdeQXVyNDQ2OTk4MzI@._V1_QL75_UX190_CR0,1,190,281_.jpg',
+        name: 'Example Movie',
+        rating: 4,
+        releaseYear: '2022',
+        genre: 'Science Fiction',
+        cast: 'Example Cast',
+      },
+      comments: [
+        { id: 1, author: 'John Doe', date: '2022-01-01', content: 'This is a comment.' },
+        { id: 2, author: 'Jane Doe', date: '2022-01-02', content: 'This is another comment.' },
+      ],
+      colors: ['#99a9bf', '#f7ba2a', '#ff9900'],
+    };
+  },
+};
 </script>
 
 <style scoped>
-  .el-carousel__item h3 {
-    color: #475669;
-    font-size: 14px;
-    opacity: 0.75;
-    line-height: 200px;
-    margin: 0;
-  }
+.container {
+  background-color: #000;
+  color: #fff;
+  padding: 20px;
+}
 
-  .el-carousel__item:nth-child(2n) {
-    background-color: #99a9bf;
-  }
+.movie {
+  max-width: 800px;
+  margin: 0 auto;
+}
 
-  .el-carousel__item:nth-child(2n+1) {
-    background-color: #d3dce6;
-  }
+.movie-header {
+  display: flex;
+  gap: 20px;
+}
 
+.movie-image {
+  width: 200px;
+  height: 300px;
+  object-fit: cover;
+}
+
+.movie-title {
+  margin: 0;
+  margin-bottom: 10px;
+  font-size: 24px;
+}
+
+.movie-rating {
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+.movie-info {
+  font-size: 18px;
+}
+
+.movie-release-year, .movie-genre {
+  margin-right: 10px;
+}
+
+.movie-cast {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.comment {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.comment-author {
+  font-weight: bold;
+}
 </style>

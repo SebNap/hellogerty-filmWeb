@@ -4,22 +4,26 @@
       <el-aside
                 class="box77 fixed-element"
                 :width="setWidth + 'px'"
-                style="background-color: rgb(0,0,0);
+                style="background-color: #222;
 
-                 box-shadow: orange;
-                 border-right: rgba(255,255,255,0.23) 1px solid;
+                 box-shadow: transparent;
+                 border-right: rgba(255,255,255,0) 0px solid;
                  /*border-left: rgba(255,255,255,0.23) 4px solid;*/
-                 left: 0; bottom: 0"
+                 left: 0; bottom: 0;
+                 z-index: 0"
       >
         <Aside :is-collapse = "isCollapse"/>
-      </el-aside>
+<!--        <el-header class="fixed-element" style=" border-bottom: rgba(255,255,255,0.23) 1px solid; z-index: 1">-->
+<!--        </el-header>-->
 
-      <el-header class="fixed-element" style=" border-bottom: rgba(255,255,255,0.23) 1px solid">
+      </el-aside>
+      <el-header class="fixed-element" style=" border-bottom: rgba(255,255,255,0.23) 0px solid;z-index: 100">
         <Header :collapse-btn-class="collapseBtnClass" :collapse="collapse"/>
 
         <!--          background-image: linear-gradient(to right, #ffcc00, #cf2626, #8d1aff);-->
 
       </el-header>
+
 
 
       <el-container class="main-content">
@@ -48,8 +52,8 @@ export default {
   data(){
     return{
       collapseBtnClass:'el-icon-s-fold',
-      isCollapse: true,
-      setWidth: 4,
+      isCollapse: false,
+      setWidth: 200,
     }
   },
   components: {
@@ -60,7 +64,7 @@ export default {
     collapse(){//点击收缩按钮触发
       this.isCollapse = !this.isCollapse
       if(this.isCollapse){
-        this.setWidth = 4
+        this.setWidth = 64
         this.collapseBtnClass = 'el-icon-s-unfold'
       }else{
         this.setWidth = 200

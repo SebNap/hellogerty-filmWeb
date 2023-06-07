@@ -1,13 +1,9 @@
 <template>
-  <div class="container" @scroll="checkScroll">
-    <!-- 欢迎标题 -->
+  <div class="container" ref="container" @scroll="checkScroll">
     <Header @search-result="updateMovies" />
-    <h1 class="welcome">Welcome to Gerty's Home</h1>
     <div class="content">
-      <!-- 使用 Element-UI 的行和列组件创建三列布局 -->
       <el-row :gutter="20">
-        <!-- 使用 v-for 循环渲染电影卡片 -->
-        <el-col :span="8" v-for="item in lists" :key="item.name">
+        <el-col :span="6" v-for="item in lists" :key="item.name">
           <el-card class="movie-card">
             <div class="movie-image-wrapper">
               <img :src="item.imgUrl" class="movie-image" />
@@ -26,10 +22,13 @@
           </el-card>
         </el-col>
       </el-row>
-
-      <!-- 显示已加载全部电影的消息 -->
       <div v-if="reachedEnd" class="end-message">已加载全部电影</div>
     </div>
+    <button class="back-to-top" v-show="isScrolled" @click="backToTop">
+      <i class="fas fa-angle-double-up"></i>
+    </button>
+
+
   </div>
 </template>
 
@@ -44,6 +43,8 @@ export default {
       reachedEnd: false,
       lists: [],
       isScrolled: false,
+      currentPage: 1, // 添加当前页面
+      pageSize: 20, // 添加每页显示的数量
     };
   },
   mounted() {
@@ -51,8 +52,13 @@ export default {
   },
   methods: {
     fetchMovies() {
-      axios.get('http://localhost:9090/filmv3').then(res => {
-        let newMovies = res.data.map(record => ({
+      axios.get(`http://localhost:9090/filmv3/page`, {
+        params: {
+          pageNum: this.currentPage,
+          pageSize: this.pageSize,
+        },
+      }).then(res => {
+        let newMovies = res.data.records.map(record => ({
           imgUrl: record.imageURL,
           name: record.title,
           rating: record.voteAverage,
@@ -61,7 +67,8 @@ export default {
         }));
 
         this.lists = [...this.lists, ...newMovies];
-        this.reachedEnd = true; // 同样，你的API似乎没有提供是否还有更多数据的信息，你可能需要修改这个逻辑
+        this.reachedEnd = res.data.records.length < this.pageSize; // 检查是否已经到达了最后一页
+        this.currentPage += 1; // 每次获取到新的电影数据后，页码加1
       })
     },
     checkScroll(event) {
@@ -69,25 +76,50 @@ export default {
       this.isScrolled = target.scrollTop > 0;
       const nearBottom = target.scrollTop + target.clientHeight >= target.scrollHeight - 20;
       if (nearBottom && !this.reachedEnd) {
-        // 当滚动接近底部且尚未加载全部电影时，获取更多电影数据
         this.fetchMovies();
       }
     },
     updateMovies(newMovies) {
-      this.lists = newMovies;
+      console.log('Updating movies with:', newMovies);  // 添加这行
+      this.lists = newMovies.map(record => ({
+        imgUrl: record.imageURL,
+        name: record.title,
+        rating: record.voteAverage,
+        releaseYear: '1993', // 你的API似乎没有提供发行年份信息，你可能需要从其他地方获取或直接硬编码一个值
+        genre: 'Unknown', // 同上，你的API似乎没有提供电影类型信息
+      }));
+    },
+    backToTop() {
+      this.$refs.container.scrollTop = 0;
     },
   },
 };
-
-
 </script>
 
 <style>
 .container {
-  padding: 0px;
+  padding-top: 24px;
   height: 100vh;
   overflow-y: auto;
   background-color: #000; /* 设置背景颜色为黑色 */
+  position: relative;
+}
+
+.back-to-top {
+  position: fixed;
+  right: 290px;
+  top: 80px;
+  z-index: 999;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  font-size: 20px;
+  transition: all 0.3s ease;
+  color: #333;
+}
+
+.back-to-top:hover {
+  color: #ccc;
 }
 
 /* 隐藏滚动条 */
@@ -95,36 +127,36 @@ export default {
   display: none;
 }
 
-.welcome {
-  position: sticky;
-  margin: fill;
-  top: 8px;
-  z-index: 1;
-  color: orange;
-  text-shadow: 2px 2px 4px #000000;
-  /*margin-bottom: 20px;*/
-}
+
 
 .content {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+  grid-gap: 20px;
+  justify-content: center;
   max-width: 1000px;
   margin: fill;
   overflow: hidden;
 }
 
+.el-row {
+  width: 100%;
+}
+
 .movie-card {
+  height: 480px;
   margin-bottom: 20px;
   border-radius: 8px;
-  /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);*/
-  background-color: #222; /* 设置卡片背景颜色 */
-  color: #fff; /* 设置文本颜色 */
+  background-color: #222;
+  color: #fff;
   overflow: hidden;
-  border: none; /* 去除边框 */
+  border: none;
 }
 
 .movie-image-wrapper {
   position: relative;
   width: 100%;
-  padding-bottom: 150%; /* 保持宽高比例 */
+  padding-bottom: 150%;
 }
 
 .movie-image {
@@ -134,8 +166,9 @@ export default {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
+  /*border-top-left-radius: 8px;*/
+  /*border-top-right-radius: 8px;*/
+  border-radius: 8px;
 }
 
 .movie-rating {
@@ -143,17 +176,22 @@ export default {
   top: 10px;
   right: 10px;
   padding: 4px 8px;
-  background-color: #ff4081; /* 设置评分背景颜色 */
+  /*background-color: #ff4081;*/
+  background: linear-gradient( to bottom right, #ffcc00 0%, #cf2626 50%, #8d1aff 100%);
   border-radius: 4px;
   font-weight: bold;
 }
 
 .movie-detail {
-  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 13px;
+  padding: 3px;
 }
 
 .movie-title {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
 }
 
@@ -171,13 +209,13 @@ export default {
 
 .movie-footer {
   display: flex;
-  justify-content: flex-end;
-  margin-top: 16px;
+  font-style: italic;
+
 }
 
 .end-message {
   text-align: center;
   margin-top: 20px;
-  color: #fff; /* 设置文本颜色 */
+  color: #fff;
 }
 </style>

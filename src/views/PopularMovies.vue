@@ -1,22 +1,13 @@
 <template>
-  <div class="top-movies" v-if="topMovies.length > 0">
+  <div class="popular-movies" v-if="topMovies.length > 0">
     <h2>Top Movies</h2>
     <ul>
-      <li v-for="(movie1, index) in topMovies" :key="index">
+      <li v-for="(movie, index) in topMovies" :key="index">
 <!--        {{ movie.title }} - Rating: {{ movie.voteAverage }}-->
-        《{{ movie1.title }}》
+        《{{ movie.title }}》
       </li>
     </ul>
   </div>
-<!--  <div class="popular-movies" v-if="topMovies.length > 0">-->
-<!--    <h2>Top Movies</h2>-->
-<!--    <ul>-->
-<!--      <li v-for="(movie1, index) in topMovies" :key="index">-->
-<!--        &lt;!&ndash;        {{ movie.title }} - Rating: {{ movie.voteAverage }}&ndash;&gt;-->
-<!--        《{{ movie1.title }}》-->
-<!--      </li>-->
-<!--    </ul>-->
-<!--  </div>-->
 </template>
 
 <script>

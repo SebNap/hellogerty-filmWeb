@@ -97,8 +97,8 @@ export default {
 }
 
 .main-content {
-  padding-top: 40px; /* 根据您的页眉高度进行调整 */
-  padding-left: 210px; /* 根据您的 aside 宽度进行调整 */
+  padding-top: 30px; /* 根据您的页眉高度进行调整 */
+  padding-left: 115px; /* 根据您的 aside 宽度进行调整 */
   overflow: hidden; /* 隐藏垂直滚动条 */
   scrollbar-width: none; /* 隐藏滚动条（适用于 Firefox） */
   -ms-overflow-style: none; /* 隐藏滚动条（适用于 IE 10+） */

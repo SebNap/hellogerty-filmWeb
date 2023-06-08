@@ -20,6 +20,7 @@ html {
   background-color: #000000 !important;
   background-image: linear-gradient(to left, #ffcc00 0%, #cf2626 50%, #8d1aff 100%) !important;
   height: 6px !important;
+  z-index: 1500;
 }
 </style>
 

@@ -32,18 +32,34 @@
     </el-menu-item>
 
 
+    <el-menu-item index="/top" @click="$router.push('/top')">
+      <i class="el-icon-house"></i>
+      <span @click="$router.push('/top')"><b> Top</b></span>
+    </el-menu-item>
+
+
+
     <div style="margin-top: 300%" hidden>
       <el-button style="border-radius: 50%" type="" size="small" autocomplete="off" @click="">mode</el-button>
     </div>
 
-    <div class="audio-player">
-      <audio controls>
-        <source src="../assets/Ceremony - Cold Cold Night.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-      </audio>
-    </div>
+
+    <el-menu-item style="margin-top: 360px;color: #64a6e7;" index="/login" @click="$router.push('/login')">
+      <i class="el-icon-user"></i>
+      <span @click="$router.push('/login')"><b> Log Out</b></span>
+    </el-menu-item>
+
+
+
+<!--    <div class="audio-player">-->
+<!--      <audio controls>-->
+<!--        <source src="../assets/Ceremony - Cold Cold Night.mp3" type="audio/mpeg">-->
+<!--        Your browser does not support the audio element.-->
+<!--      </audio>-->
+<!--    </div>-->
 
   </el-menu>
+
 </template>
 
 <script>

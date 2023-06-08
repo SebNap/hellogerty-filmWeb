@@ -3,22 +3,22 @@
     <div style="margin-left: 3px; flex: 1; font-size: 20px">
       <span :class="collapseBtnClass" style="cursor: pointer" @click="collapse"></span>
     </div>
-    <h1 class="welcome1">
-      <router-link to="/home" style="color: inherit; text-decoration: none;">Film</router-link>
+    <h1 class="welcome1" @click="refreshPage">
+      Film
     </h1>
     <h1 :class="['welcome2', isPlaying ? 'playing' : '']" @click="togglePlay">Ceremony</h1>
     <div style="margin-left: 18px; margin-right: 810px;">
-      <el-input style="width: 284px" v-model="searchTerm" placeholder="Search for movies" @keyup.enter="search">
+      <el-input style="width: 284px;" v-model="searchTerm" placeholder="Search for Movies" @keyup.enter="handleSearch">
         <template #prepend>
-          <el-button icon="el-icon-search" @click="search"></el-button>
+          <el-button icon="el-icon-search" @click="handleSearch"></el-button>
         </template>
       </el-input>
     </div>
 
     <el-dropdown style="text-align: right; cursor: pointer">
       <div style="display: inline-block">
-        <img :src="user.avatarUrl" alt=""
-             style="width: 25px; border:2px solid orange; border-radius: 50%; position: relative; top: 8px; right: 5px">
+<!--        <img :src="" alt=""-->
+<!--             style="width: 25px; border:2px solid ; border-radius: 50%; position: relative; top: 8px; right: 5px">-->
         <span>{{user.nickname}}</span>
       </div>
 
@@ -37,6 +37,9 @@
 
 <script>
 import axios from 'axios';
+import { EventBus } from '../event-bus.js';
+// import { router } from '@/router'; // 假设您的Vue Router实例命名为router
+
 
 export default {
   name: "Header",
@@ -57,13 +60,36 @@ export default {
       localStorage.removeItem("user");
       this.$message.success("退出成功");
     },
+    handleSearch() {
+      if (!this.searchTerm) {
+        this.refreshPage();
+      } else {
+        this.search();
+      }
+    },
+    refreshPage() {
+      this.$router.push("/home");
+      location.reload();
+    },
     async search() {
       const res = await axios.get('http://localhost:9090/filmv3/search', {
         params: { title: this.searchTerm }
       });
-      console.log('Search results:', res.data);  // 添加这行
-      this.$emit('search-result', res.data);
+      console.log('Search results:', res.data);
+      const RnewMovies = res.data.map(record => ({ // 请确认这个转换是否正确
+        // movieID: record.movieID,
+        imgUrl: record.imageURL,
+        name: record.title,
+        rating: record.voteAverage,
+        releaseYear: '1993', // 你的API似乎没有提供发行年份信息，你可能需要从其他地方获取或直接硬编码一个值
+        genre: 'Unknown', // 同上，你的API似乎没有提供电影类型信息
+      }));
+      console.log('Emitting search-result with:', RnewMovies);
+      // this.$emit('search-result', newMovies);
+      EventBus.$emit('search-result', RnewMovies);
+      console.log('search-result event emitted');
     },
+
     togglePlay() {
       const audio = this.$refs.audioPlayer;
       if (this.isPlaying) {

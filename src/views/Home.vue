@@ -1,6 +1,7 @@
 <template>
   <div class="container" ref="container" @scroll="checkScroll">
-    <Header @search-result="updateMovies" />
+    <Header @search-result="onSearchResult" />
+    <TopMovies />
     <div class="content">
       <el-row :gutter="20">
         <el-col :span="6" v-for="item in lists" :key="item.name">
@@ -8,6 +9,14 @@
             <div class="movie-image-wrapper">
               <img :src="item.imgUrl" class="movie-image" />
               <div class="movie-rating">{{ item.rating }}</div>
+              <div class="movie-footer">
+                <el-button type="text" class="button like-button">
+                  <i class="fas fa-heart"></i></el-button>
+              </div>
+              <div class="movie-footer2">
+                <el-button type="text" class="button like-button2">more
+                  </el-button>
+              </div>
             </div>
             <div class="movie-detail">
               <span class="movie-title">{{ item.name }}</span>
@@ -15,18 +24,21 @@
                 <span class="movie-release-year">{{ item.releaseYear }}</span>
                 <span class="movie-genre">{{ item.genre }}</span>
               </div>
-              <div class="movie-footer">
-                <el-button type="text" class="button like-button">Like</el-button>
-              </div>
             </div>
+
+
           </el-card>
         </el-col>
       </el-row>
-      <div v-if="reachedEnd" class="end-message">已加载全部电影</div>
+      <div v-if="reachedEnd" class="end-message"><b style="color: #333">All Movies are Loaded</b></div>
+<!--      <div v-if="reachedEnd2" class="end-message"><b style="color: #333">All Movies are Loaded</b></div>-->
     </div>
+<!--    <TopMovies />-->
     <button class="back-to-top" v-show="isScrolled" @click="backToTop">
       <i class="fas fa-angle-double-up"></i>
     </button>
+
+
 
 
   </div>
@@ -34,16 +46,31 @@
 
 <script>
 import axios from "axios";
+import Header from "@/views/Header";
+import { EventBus } from '../event-bus.js';
+import TopMovies from './TopMovies.vue'; // Make sure the path is correct
+
 
 export default {
   name: "Home",
+  components: {TopMovies},
+      // {Header},
+
+  created() {
+    EventBus.$on('search-result', this.onSearchResult);
+  },
+  beforeDestroy() {
+    EventBus.$off('search-result', this.onSearchResult);
+  },
   data() {
     return {
       loading: false,
       reachedEnd: false,
+      reachedEnd2: false,
       lists: [],
       isScrolled: false,
-      currentPage: 1, // 添加当前页面
+      currentPage: Math.floor(Math.random() *6), // 生成0-100的随机数
+      // currentPage: 0, // 添加当前页面
       pageSize: 20, // 添加每页显示的数量
     };
   },
@@ -52,24 +79,38 @@ export default {
   },
   methods: {
     fetchMovies() {
+      // 先增加页码
+      this.currentPage += 1;
+
       axios.get(`http://localhost:9090/filmv3/page`, {
         params: {
           pageNum: this.currentPage,
           pageSize: this.pageSize,
         },
       }).then(res => {
+        console.log('Origin movies with:', res.data.records);
         let newMovies = res.data.records.map(record => ({
           imgUrl: record.imageURL,
           name: record.title,
           rating: record.voteAverage,
-          releaseYear: '1993', // 你的API似乎没有提供发行年份信息，你可能需要从其他地方获取或直接硬编码一个值
-          genre: 'Unknown', // 同上，你的API似乎没有提供电影类型信息
+          releaseYear: '', // 你的API似乎没有提供发行年份信息，你可能需要从其他地方获取或直接硬编码一个值
+          genre: '', // 同上，你的API似乎没有提供电影类型信息
         }));
 
-        this.lists = [...this.lists, ...newMovies];
+        this.reachedEnd = false;
+        // this.lists = [...this.lists, ...newMovies];
+        this.lists = [...this.lists, ...this.shuffleArray(newMovies)];
         this.reachedEnd = res.data.records.length < this.pageSize; // 检查是否已经到达了最后一页
-        this.currentPage += 1; // 每次获取到新的电影数据后，页码加1
+        console.log('Origin moviesList with:', this.lists);
       })
+    },
+
+    shuffleArray(array) {//随机展示电影
+      for (let i = array.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
     },
     checkScroll(event) {
       const { target } = event;
@@ -79,15 +120,27 @@ export default {
         this.fetchMovies();
       }
     },
-    updateMovies(newMovies) {
-      console.log('Updating movies with:', newMovies);  // 添加这行
-      this.lists = newMovies.map(record => ({
-        imgUrl: record.imageURL,
-        name: record.title,
-        rating: record.voteAverage,
-        releaseYear: '1993', // 你的API似乎没有提供发行年份信息，你可能需要从其他地方获取或直接硬编码一个值
-        genre: 'Unknown', // 同上，你的API似乎没有提供电影类型信息
+    updateMovies(RnewMovies) {
+      console.log('Updating movies with:', RnewMovies);  // 添加这行
+      this.lists = RnewMovies.map(record => ({
+        // movieID: record.movieID,
+        imgUrl: record.imgUrl,
+        name: record.name,
+        rating: record.rating,
+        releaseYear: '', // 你的API似乎没有提供发行年份信息，你可能需要从其他地方获取或直接硬编码一个值
+        genre: '', // 同上，你的API似乎没有提供电影类型信息
       }));
+      // this.lists = [...this.lists, ...RnewMovies];
+      // 更新currentPage和reachedEnd的值
+      this.currentPage = 1;
+      this.reachedEnd = true;
+      this.reachedEnd2 = true;
+    },
+    onSearchResult(RnewMovies) {
+      console.log('onSearchResult has been called!');
+      console.log('Received search-result event with:', RnewMovies);
+      this.updateMovies(RnewMovies);
+      console.log('lists has been updated to:', this.lists);
     },
     backToTop() {
       this.$refs.container.scrollTop = 0;
@@ -107,7 +160,8 @@ export default {
 
 .back-to-top {
   position: fixed;
-  right: 290px;
+  /*right: 290px;*/
+  left: 200px;
   top: 80px;
   z-index: 999;
   background-color: transparent;
@@ -127,8 +181,6 @@ export default {
   display: none;
 }
 
-
-
 .content {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
@@ -144,11 +196,11 @@ export default {
 }
 
 .movie-card {
-  height: 480px;
+  height: 450px;
   margin-bottom: 20px;
   border-radius: 8px;
   background-color: #222;
-  color: #fff;
+  color: #ccc;
   overflow: hidden;
   border: none;
 }
@@ -191,7 +243,7 @@ export default {
 }
 
 .movie-title {
-  font-size: 16px;
+  font-size: 17px;
   font-weight: bold;
 }
 
@@ -208,14 +260,42 @@ export default {
 }
 
 .movie-footer {
-  display: flex;
-  font-style: italic;
+  position: absolute;
+  top: 377px;
+  right: 0px;
+  padding: 3px;
+  /*background-color: #ff4081;*/
+  /*background: linear-gradient( to bottom right, #ffcc00 0%, #cf2626 50%, #8d1aff 100%);*/
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.movie-footer2 {
+  position: absolute;
+  top: 380px;
+  left: 0px;
+  padding: 3px;
+  background-color: #111;
+  font-weight: bold;
+  border-radius: 5px;
 
 }
 
 .end-message {
   text-align: center;
-  margin-top: 20px;
+  margin-bottom: 20px;
   color: #fff;
 }
+
+.like-button {
+  color: #bd0000 !important;
+  font-size: 20px;
+}
+
+.like-button2 {
+  color: #ccc !important;
+  font-size: 10px;
+  font-weight: bold;
+}
+
 </style>

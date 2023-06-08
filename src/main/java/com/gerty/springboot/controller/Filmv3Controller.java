@@ -84,6 +84,28 @@ public class Filmv3Controller {
     }
 
 
+    // 获取前250名的电影
+    @GetMapping("/top250")
+    public List<Filmv3> getTop250() {
+        QueryWrapper<Filmv3> queryWrapper = new QueryWrapper<>();
+
+        // 按照评分降序排列，并只取前250条记录
+        queryWrapper.orderByDesc("vote_average").last("limit 250");
+
+        return filmv3Service.list(queryWrapper);
+    }
+
+    // 获取前250名的电影
+    @GetMapping("/popular250")
+    public List<Filmv3> getPopular250() {
+        QueryWrapper<Filmv3> queryWrapper = new QueryWrapper<>();
+
+        // 按照评分降序排列，并只取前250条记录
+        queryWrapper.orderByDesc("voteCount").last("limit 250");
+
+        return filmv3Service.list(queryWrapper);
+    }
+
 
 }
 

@@ -4,7 +4,7 @@
 <!--       :style="{'background-image': `url(${require('@/assets/mcTorch.jpg')})`}"-->
 <!--  >-->
     <div style="margin-left: 200px; margin-top: 100px; background-color: rgba(255,255,255,0); width: 350px; height: 300px; padding: 20px; border-radius: 1px">
-      <img src="../assets/moonIcon.jpg" alt="" style="width: 130px; position: center ">
+<!--      <img src="../assets/moonIcon.jpg" alt="" style="width: 130px; position: center ">-->
       <div style="margin: 20px 0; text-align: left; font-size: 24px; color: white"><b>Welcome to Gerty's Home</b></div>
 
       <el-form :model="user" :rules="rules" ref="userForm">

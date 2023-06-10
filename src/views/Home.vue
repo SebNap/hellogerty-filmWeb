@@ -5,17 +5,21 @@
     <div class="content">
       <el-row :gutter="20">
         <el-col :span="6" v-for="item in lists" :key="item.name">
-          <el-card class="movie-card">
+
+          <!--          <div v-for="movie in movies" :key="movie.id">-->
+          <el-card class="movie-card" >
             <div class="movie-image-wrapper">
               <img :src="item.imgUrl" class="movie-image" />
-              <div class="movie-rating">{{ item.rating }}</div>
+<!--              <div class="movie-rating">{{ item.rating }}</div>-->
+              <div :class="['movie-rating', ceremonyClicked ? 'movie-rating-high' : '']">{{ item.rating }}</div>
+
               <div class="movie-footer">
-                <el-button type="text" class="button like-button">
-                  <i class="fas fa-heart"></i></el-button>
+                <el-button type="text" class="button like-button" @click="addToFavorites(item)">
+                  <i class="fas fa-heart"></i>
+                </el-button>
               </div>
               <div class="movie-footer2">
-                <el-button type="text" class="button like-button2">more
-                  </el-button>
+                <el-button type="text" class="button like-button2" @click="showMore(item.movieID)">more</el-button>
               </div>
             </div>
             <div class="movie-detail">
@@ -25,9 +29,9 @@
                 <span class="movie-genre">{{ item.genre }}</span>
               </div>
             </div>
-
-
           </el-card>
+          <!--          </div>-->
+
         </el-col>
       </el-row>
       <div v-if="reachedEnd" class="end-message"><b style="color: #333">All Movies are Loaded</b></div>
@@ -38,9 +42,9 @@
       <i class="fas fa-angle-double-up"></i>
     </button>
 
-
-
-
+    <div class="big-heart" v-if="showHeart">
+      <i class="fas fa-heart"></i>
+    </div>
   </div>
 </template>
 
@@ -65,17 +69,26 @@ export default {
   data() {
     return {
       loading: false,
-      reachedEnd: false,
+      reachedEnd: true,
       reachedEnd2: false,
       lists: [],
       isScrolled: false,
       currentPage: Math.floor(Math.random() *6), // 生成0-100的随机数
       // currentPage: 0, // 添加当前页面
       pageSize: 20, // 添加每页显示的数量
+      ceremonyClicked: false,
+      nickname: '' , // Initialize nickname
+      showHeart: false // 添加变量来控制大红心的显示和隐藏
     };
   },
   mounted() {
     this.fetchMovies();
+    // 新增以下两行代码
+    EventBus.$on('play-status-changed', (isPlaying) => {
+      this.isPlaying = isPlaying;
+      // this.changeMovieRatingColor(); // 你需要实现这个函数，改变电影评分的背景颜色
+      this.ceremonyClicked = !this.ceremonyClicked;
+    });
   },
   methods: {
     fetchMovies() {
@@ -90,7 +103,9 @@ export default {
       }).then(res => {
         console.log('Origin movies with:', res.data.records);
         let newMovies = res.data.records.map(record => ({
+          movieID: record.movieID,  // 确保包含 movieID
           imgUrl: record.imageURL,
+          imageURL: record.imageURL,
           name: record.title,
           rating: record.voteAverage,
           releaseYear: '', // 你的API似乎没有提供发行年份信息，你可能需要从其他地方获取或直接硬编码一个值
@@ -123,7 +138,7 @@ export default {
     updateMovies(RnewMovies) {
       console.log('Updating movies with:', RnewMovies);  // 添加这行
       this.lists = RnewMovies.map(record => ({
-        // movieID: record.movieID,
+        movieID: record.movieID,
         imgUrl: record.imgUrl,
         name: record.name,
         rating: record.rating,
@@ -145,6 +160,52 @@ export default {
     backToTop() {
       this.$refs.container.scrollTop = 0;
     },
+    showMore(movieId) {
+      console.log("Movie ID: ", movieId);
+      // 从列表中找到对应的电影
+      let movie = this.lists.find(item => item.movieID === movieId);
+      if (movie) {
+        console.log("More information for movie: ", movie);
+      }
+
+      // 将电影ID作为参数传递给路由
+      this.$router.push({ name: 'Details', params: { movieId: movieId, imgUrl: movie.imgUrl} });
+    },
+    addToFavorites(movie) {
+      this.nickname = this.getNickname();  // Update the nickname before each request
+      console.log('my nickname:',this.nickname);
+
+      axios.post('http://localhost:9090/likev1/add', {
+        nickname: this.nickname,
+        movieID: movie.movieID,
+        imageURL: movie.imgUrl,
+        title: movie.name,
+        voteAverage: movie.rating,
+      })
+          .then(function (response) {
+            console.log(response);
+            alert('Added to favorites!');
+            // 显示大红心
+            this.showHeart = true;
+
+            // 两秒后隐藏大红心
+            setTimeout(() => {
+              this.showHeart = false;
+            }, 2000);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+
+    },
+    getNickname() {
+      // The actual implementation of this method depends on where you store the user data
+      // For example, if you store it in the localStorage, you could do something like this:
+      let user = JSON.parse(window.localStorage.getItem('user'));
+      let nickname = user ? user.nickname : null;
+      return nickname;
+      // return localStorage.getItem('nickname');
+    }
   },
 };
 </script>
@@ -162,7 +223,7 @@ export default {
   position: fixed;
   /*right: 290px;*/
   left: 200px;
-  top: 80px;
+  top: 82px;
   z-index: 999;
   background-color: transparent;
   border: none;
@@ -196,13 +257,15 @@ export default {
 }
 
 .movie-card {
-  height: 450px;
+  height: 455px;
   margin-bottom: 20px;
   border-radius: 8px;
-  background-color: #222;
+  background: linear-gradient( to bottom right, #222 0%,rgba(26, 26, 26, 0.9) 90%,#222 100%);
+
   color: #ccc;
   overflow: hidden;
-  border: none;
+  /*border: none;*/
+  border: 0px solid #333;
 }
 
 .movie-image-wrapper {
@@ -220,18 +283,22 @@ export default {
   object-fit: cover;
   /*border-top-left-radius: 8px;*/
   /*border-top-right-radius: 8px;*/
+  /*border: 1px solid #333;*/
   border-radius: 8px;
 }
 
 .movie-rating {
   position: absolute;
-  top: 10px;
+  color: #eee;
+  top: -10px;
   right: 10px;
   padding: 4px 8px;
-  /*background-color: #ff4081;*/
-  background: linear-gradient( to bottom right, #ffcc00 0%, #cf2626 50%, #8d1aff 100%);
+  /*background-color: #64a6e7;*/
+  background: linear-gradient( to bottom right, #64a6e7 0%, #4880c7 50%, rgba(72, 128, 199, 0.98) 100%);
   border-radius: 4px;
   font-weight: bold;
+  text-shadow: 1px 1px 10px #d5d5d5;
+  box-shadow: 0px 0px 7px 1px rgba(222, 222, 222, 0.38);
 }
 
 .movie-detail {
@@ -262,8 +329,9 @@ export default {
 .movie-footer {
   position: absolute;
   top: 377px;
-  right: 0px;
+  /*right: 0px;*/
   padding: 3px;
+  margin-left: 115px;
   /*background-color: #ff4081;*/
   /*background: linear-gradient( to bottom right, #ffcc00 0%, #cf2626 50%, #8d1aff 100%);*/
   border-radius: 4px;
@@ -272,10 +340,12 @@ export default {
 
 .movie-footer2 {
   position: absolute;
-  top: 380px;
-  left: 0px;
-  padding: 3px;
-  background-color: #111;
+  top: 385px;
+  /*left: 0px;*/
+  margin-left: 153px;
+  padding-right: 3px;
+  padding-left: 3px;
+  background-color: rgba(17, 17, 17, 0.66);
   font-weight: bold;
   border-radius: 5px;
 
@@ -289,13 +359,55 @@ export default {
 
 .like-button {
   color: #bd0000 !important;
-  font-size: 20px;
+  font-size: 22px;
 }
 
 .like-button2 {
   color: #ccc !important;
   font-size: 10px;
   font-weight: bold;
+}
+
+.movie-rating-high {
+  background: linear-gradient(to bottom right, #ffcc00 0%, #cf2626 50%, #8d1aff 100%);
+}
+
+.movie-image2 {
+  /*display: none;*/
+  position: fixed;
+  width: 1px;
+  height: 1px;
+  object-fit: cover;
+  margin-top: 35px;
+  right: 0px;
+  z-index: 1;
+
+  box-shadow: -300px 600px 1100px 100px rgba(103, 167, 231, 0.9999);
+}
+
+.big-heart {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 100px;
+  color: red;
+  animation: heartAnimation 2s ease-out;
+}
+
+@keyframes heartAnimation {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
 }
 
 </style>

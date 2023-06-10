@@ -1,6 +1,7 @@
 <template>
   <div class="top-movies" v-if="topMovies.length > 0">
-    <h2>Top Movies</h2>
+<!--    <div :class="['movie-rating', ceremonyClicked ? 'movie-rating-high' : '']">HI</div>-->
+    <h2 style="padding-bottom: 5px">Top Movies</h2>
     <ul>
       <li v-for="(movie1, index) in topMovies" :key="index">
 <!--        {{ movie.title }} - Rating: {{ movie.voteAverage }}-->
@@ -53,13 +54,13 @@ export default {
 .top-movies {
   position: fixed;
   right: 40px;
-  margin-left: 1230px;
+  left: 1230px;
   border-radius: 8px;
   top: 84px;
   /*width: 18%;*/
-  background-color: #222;
+  background-color: #111;
   color: #ccc;
-  padding: 20px;
+  padding: 15px 20px 20px 28px;
   /*height: 80vh;*/
   overflow-y: auto;
   font-size: 12px;

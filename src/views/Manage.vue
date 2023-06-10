@@ -1,5 +1,6 @@
 <template>
   <div style="background-color: black">
+    <TopMovies />
     <el-container style="min-height: 100vh">
       <el-aside
                 class="box77 fixed-element"
@@ -17,12 +18,14 @@
 <!--        </el-header>-->
 
       </el-aside>
-      <el-header class="fixed-element" style=" border-bottom: rgba(255,255,255,0.23) 0px solid;z-index: 100">
+      <el-header class="fixed-element" style=" border-bottom: rgba(255,255,255,0.23) 0px solid;z-index: 100;">
         <Header :collapse-btn-class="collapseBtnClass" :collapse="collapse"/>
 
         <!--          background-image: linear-gradient(to right, #ffcc00, #cf2626, #8d1aff);-->
 
       </el-header>
+
+
 
 
 
@@ -46,12 +49,13 @@
 // import HelloWorld from '@/components/HelloWorld.vue'
 import Aside from "@/components/Aside";
 import Header from "@/views/Header";
+import TopMovies from "@/views/TopMovies";
 
 export default {
   name: 'HomeView',
   data(){
     return{
-      collapseBtnClass:'el-icon-s-fold',
+      collapseBtnClass:'el-icon-s-unfold',
       isCollapse: false,
       setWidth: 200,
     }
@@ -65,10 +69,12 @@ export default {
       this.isCollapse = !this.isCollapse
       if(this.isCollapse){
         this.setWidth = 64
-        this.collapseBtnClass = 'el-icon-s-unfold'
+        // this.collapseBtnClass = 'el-icon-s-unfold'
+        this.collapseBtnClass = 'el-icon-s-fold'
       }else{
         this.setWidth = 200
-        this.collapseBtnClass = 'el-icon-s-fold'
+        // this.collapseBtnClass = 'el-icon-s-fold'
+        this.collapseBtnClass = 'el-icon-s-unfold'
       }
     }
   }
@@ -98,7 +104,7 @@ export default {
 
 .main-content {
   padding-top: 30px; /* 根据您的页眉高度进行调整 */
-  padding-left: 115px; /* 根据您的 aside 宽度进行调整 */
+  padding-left: 116px; /* 根据您的 aside 宽度进行调整 */
   overflow: hidden; /* 隐藏垂直滚动条 */
   scrollbar-width: none; /* 隐藏滚动条（适用于 Firefox） */
   -ms-overflow-style: none; /* 隐藏滚动条（适用于 IE 10+） */

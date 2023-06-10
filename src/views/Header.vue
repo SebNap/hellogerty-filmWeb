@@ -7,30 +7,39 @@
       Film
     </h1>
     <h1 :class="['welcome2', isPlaying ? 'playing' : '']" @click="togglePlay">Ceremony</h1>
-    <div style="margin-left: 18px; margin-right: 810px;">
-      <el-input style="width: 284px;" v-model="searchTerm" placeholder="Search for Movies" @keyup.enter="handleSearch">
-        <template #prepend>
-          <el-button icon="el-icon-search" @click="handleSearch"></el-button>
-        </template>
-      </el-input>
+    <div style="margin-left: 18px; margin-right: 380px;">
+      <input
+          v-model="searchTerm"
+          class="search-input"
+          type="text"
+          placeholder="search for movies"
+          @keyup.enter="handleSearch"
+          style="background-color: #111; width: 480px; line-height: 30px; border-radius: 8px; color: #999999; padding-left: 10px; border: 2px solid transparent;"
+      />
+      <button @click="handleSearch" style="height: 30px; background-color: transparent; color: #999; border: none; border-radius: 5px; padding: 0 10px; font-size: 14px;">
+<!--        <i class="fa fa-search" style="margin-right: 5px;"></i>-->
+<!--        el-icon-search-->
+        <i class="el-icon-search" style="margin-right: 5px;font-size: 15px "></i>
+      </button>
     </div>
+
 
     <el-dropdown style="text-align: right; cursor: pointer">
       <div style="display: inline-block">
 <!--        <img :src="" alt=""-->
 <!--             style="width: 25px; border:2px solid ; border-radius: 50%; position: relative; top: 8px; right: 5px">-->
-        <span>{{user.nickname}}</span>
+        <span style="font-style: italic;" >have a good day    <b class="namecolor1">{{user.nickname}}</b></span>
       </div>
 
-      <i class="el-icon-user-solid" style="margin-left: 0px; margin-right: 20px;"></i>
+<!--      <i class="el-icon-user-solid" style="margin-left: 0px; margin-right: 20px;"></i>-->
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item>个人信息</el-dropdown-item>
+        <el-dropdown-item>Information</el-dropdown-item>
         <el-dropdown-item>
-          <span style="text-decoration: none" @click="logout">退出</span>
+          <span style="text-decoration: none" @click="logout">LogOut</span>
         </el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
-    <!-- Hidden audio player -->
+<!--     Hidden audio player-->
     <audio ref="audioPlayer" src="../assets/Ceremony - Cold Cold Night.mp3"></audio>
   </div>
 </template>
@@ -77,7 +86,7 @@ export default {
       });
       console.log('Search results:', res.data);
       const RnewMovies = res.data.map(record => ({ // 请确认这个转换是否正确
-        // movieID: record.movieID,
+        movieID: record.movieID,
         imgUrl: record.imageURL,
         name: record.title,
         rating: record.voteAverage,
@@ -98,12 +107,49 @@ export default {
         audio.play();
       }
       this.isPlaying = !this.isPlaying;
+      this.changeMovieRatingColor();
+      EventBus.$emit('play-status-changed', this.isPlaying);
+    },
+    changeMovieRatingColor() {
+      const movieRatingElement = document.querySelector('.movie-rating');
+      const nameColor1 = document.querySelector('.namecolor1');
+
+      if (this.isPlaying) {
+        if (movieRatingElement) {
+          movieRatingElement.style.background = 'linear-gradient( to bottom right, #ffcc00 0%, #cf2626 50%, #8d1aff 100%)';
+        }
+        if (nameColor1) {
+          nameColor1.style.background = 'linear-gradient( to bottom right, #ffcc00 0%, #cf2626 50%, #8d1aff 100%)';
+          nameColor1.style.webkitBackgroundClip = 'text';
+          nameColor1.style.webkitTextFillColor = 'transparent';
+        }
+      } else {
+        if (movieRatingElement) {
+          movieRatingElement.style.background = 'linear-gradient( to bottom right, #64a6e7 0%, #4880c7 50%, #4880c7 100%)';
+        }
+        if (nameColor1) {
+          nameColor1.style.background = 'linear-gradient( to bottom right, #4880c7 0%, #4880c7 100%)';
+          nameColor1.style.webkitBackgroundClip = 'text';
+          nameColor1.style.webkitTextFillColor = 'transparent';
+        }
+      }
     }
   }
 }
 </script>
 
 <style scoped>
+
+.namecolor1{
+  color: rgba(100, 161, 231, 0.91);
+  text-shadow: 1px 1px 20px #d5d5d5;
+  padding-left: 5px;
+  text-decoration: underline;
+  text-decoration-color: #333;
+  font-weight: bold;
+
+}
+
 .welcome1 {
   background-image: url('../assets/metal.png');
   background-size: cover; /* 调整背景图片的尺寸以填充元素 */
@@ -112,6 +158,7 @@ export default {
   border-top-left-radius: 8px;
   border-bottom-right-radius: 12px;
   position: sticky;
+  margin-left: 160px;
   padding: 3px;  /* 为元素增加一些内边距 */
   line-height: 32px;  /* 调整元素的行高 */
   margin-top: 12px;  /* 在元素的上方增加一些外边距 */
@@ -151,6 +198,11 @@ export default {
   -webkit-text-fill-color: transparent;
   font-weight: bold;
   display: inline-block;
+}
+
+.search-input:focus {
+  border-color: yellow;
+  outline: none;
 }
 
 body {

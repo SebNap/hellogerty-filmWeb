@@ -16,7 +16,7 @@
 
     <!--          //new information CRUD-->
     <div style="margin: 10px 0">
-      <el-button type="info">NEW<i class="el-icon-circle-plus-outline"></i></el-button>
+      <el-button type="info" @click="addFilm">NEW<i class="el-icon-circle-plus-outline"></i></el-button>
       <el-button type="danger">DELETE<i class="el-icon-remove-outline"></i></el-button>
       <el-button >UPLOAD<i class="el-icon-upload2"></i></el-button>
       <el-button >DOWNLOAD<i class="el-icon-download"></i></el-button>
@@ -36,10 +36,11 @@
 
       <el-table-column>
         <template slot-scope="scope">
-          <el-button type="warning">EDIT <i class="el-icon-edit"></i></el-button>
-          <el-button type="danger">DELE <i class="el-icon-remove-outline"></i></el-button>
+          <el-button type="warning" @click="editFilm(scope.row)">EDIT <i class="el-icon-edit"></i></el-button>
+          <el-button type="danger" @click="deleteFilm(scope.row)">DELE <i class="el-icon-remove-outline"></i></el-button>
         </template>
       </el-table-column>
+
     </el-table>
     <div style="padding: 10px 0">
       <el-pagination
@@ -61,6 +62,10 @@
 </template>
 
 <script>
+
+
+import axios from 'axios';
+
 export default {
   name: "Filmform",
   data(){
@@ -92,17 +97,6 @@ export default {
             this.tableData = res.records
             this.total = res.total
           })
-
-
-
-
-
-      // fetch("http://localhost:9090/user/page?pageNum="+this.pageNum+"&pageSize="+this.pageSize + "&username=" + this.username)
-      //     .then(res => res.json()).then(res => {
-      //   console.log(res)
-      //   this.tableData = res.data
-      //   this.total = res.total
-      // })
     },
 
 
@@ -115,7 +109,79 @@ export default {
       console.log(pageNum)
       this.pageNum = pageNum
       this.load()
-    }
+    },
+    editFilm(row) {
+      console.log('Editing:', row)
+      // 这里放你的编辑代码
+      // 让用户输入新的标题
+      let newTitle = prompt('Enter new title', row.title)
+      if(newTitle) {
+        // 如果用户输入了新的标题，更新 row 对象
+        row.title = newTitle
+        // 然后发送 POST 请求到服务器更新数据
+        axios.post(`http://localhost:9090/filmv3`, row)
+            .then(response => {
+              console.log(response)
+              // 如果更新成功，重新加载电影数据
+              if(response.data) {
+                this.load()
+              }
+            })
+            .catch(error => {
+              console.error(error)
+              // 处理错误
+            });
+      }
+    },
+
+    deleteFilm(row) {
+      console.log('Deleting:', row)
+      // 这里放你的删除代码
+      axios.delete(`http://localhost:9090/filmv3/${row.movieID}`)
+          .then(response => {
+            console.log(response)
+            // 如果删除成功，重新加载电影数据
+            if(response.data) {
+              this.load()
+            }
+          })
+          .catch(error => {
+            console.error(error)
+            // 处理错误
+          });
+    },
+    addFilm() {
+      // 创建一个空对象，用于存放新电影的数据
+      let newFilm = {
+        movieID: '',
+        imageURL: '',
+        title: '',
+        voteAverage: 0,
+        // 如果有其他字段，也可以在这里添加
+      }
+
+      // 询问用户输入新电影的信息
+      newFilm.movieID = prompt('Enter movie ID');
+      newFilm.imageURL = prompt('Enter image URL');
+      newFilm.title = prompt('Enter title');
+      newFilm.voteAverage = prompt('Enter vote average');
+      // 如果有其他字段，也可以在这里询问用户输入
+
+      // 然后用POST请求将新电影的数据发送到服务器
+      axios.post(`http://localhost:9090/filmv3`, newFilm)
+          .then(response => {
+            console.log(response)
+            // 如果添加成功，重新加载电影数据
+            if (response.data) {
+              this.load()
+            }
+          })
+          .catch(error => {
+            console.error(error)
+            // 处理错误
+          });
+    },
+
   }
 
 }

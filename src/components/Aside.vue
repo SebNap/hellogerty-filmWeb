@@ -2,7 +2,8 @@
   <el-menu
       style="min-height: 100vh; overflow-x: hidden; border-right-color: transparent;border-top-color: transparent;border-bottom-color: transparent"
       background-color= '#000'
-      text-color="#fff"
+      text-color="#ccc"
+
       active-text-color= #64a6e7
       :collapse-transition="false"
       :collapse="isCollapse"
@@ -19,22 +20,22 @@
 
 
     <el-menu-item index="/user" @click="$router.push('/user')">
-      <i class="el-icon-search"></i>
+      <i class="el-icon-user"></i>
       <span @click="$router.push('/user')"><b> User</b></span>
     </el-menu-item>
-    <el-menu-item index="/film" @click="$router.push('/film')">
-      <i class="el-icon-house"></i>
-      <span @click="$router.push('/film')"><b> FilmDetail</b></span>
+    <el-menu-item index="/detail" @click="$router.push('/detail')">
+      <i class="el-icon-document"></i>
+      <span @click="$router.push('/detail')"><b> Detail</b></span>
     </el-menu-item>
     <el-menu-item index="/filmform" @click="$router.push('/filmform')">
-      <i class="el-icon-house"></i>
+      <i class="el-icon-film"></i>
       <span @click="$router.push('/filmform')"><b> Film</b></span>
     </el-menu-item>
 
 
-    <el-menu-item index="/top" @click="$router.push('/top')">
-      <i class="el-icon-house"></i>
-      <span @click="$router.push('/top')"><b> Top</b></span>
+    <el-menu-item  index="/like" @click="$router.push('/like')">
+      <i class="el-icon-headset"></i>
+      <span @click="$router.push('/like')"><b> Like</b></span>
     </el-menu-item>
 
 
@@ -44,8 +45,8 @@
     </div>
 
 
-    <el-menu-item style="margin-top: 360px;color: #64a6e7;" index="/login" @click="$router.push('/login')">
-      <i class="el-icon-user"></i>
+    <el-menu-item text-color="#64a6e7" style="position: fixed;margin-top: 360px;color: #64a6e7;" index="/login" @click="$router.push('/login')">
+      <i class="el-icon-key"></i>
       <span @click="$router.push('/login')"><b> Log Out</b></span>
     </el-menu-item>
 
@@ -102,9 +103,9 @@ export default {
   outline: none;
 }
 
-.audio-player audio::-webkit-media-controls-panel {
-  background-color: #222;
-}
+/*.audio-player audio::-webkit-media-controls-panel {*/
+/*  background-color: #222;*/
+/*}*/
 
 /*.audio-player audio::-webkit-media-controls-play-button,*/
 /*.audio-player audio::-webkit-media-controls-volume-slider-container {*/

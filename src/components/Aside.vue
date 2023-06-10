@@ -4,7 +4,7 @@
       background-color= '#000'
       text-color="#ccc"
 
-      active-text-color= #64a6e7
+      active-text-color= #eee
       :collapse-transition="false"
       :collapse="isCollapse"
   >

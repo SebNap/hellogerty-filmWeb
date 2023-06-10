@@ -1,6 +1,5 @@
 <template>
   <div style="background-color: black">
-    <TopMovies />
     <el-container style="min-height: 100vh">
       <el-aside
                 class="box77 fixed-element"
@@ -24,6 +23,7 @@
         <!--          background-image: linear-gradient(to right, #ffcc00, #cf2626, #8d1aff);-->
 
       </el-header>
+      <div><Album/></div>
 
 
 
@@ -50,6 +50,7 @@
 import Aside from "@/components/Aside";
 import Header from "@/views/Header";
 import TopMovies from "@/views/TopMovies";
+import Album from "@/views/Album";
 
 export default {
   name: 'HomeView',
@@ -62,7 +63,8 @@ export default {
   },
   components: {
     Aside,
-    Header
+    Header,
+    Album
   },
   methods:{
     collapse(){//点击收缩按钮触发

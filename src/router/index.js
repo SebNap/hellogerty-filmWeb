@@ -26,6 +26,7 @@ const routes = [
         component: Details,
       },
       { path: 'like', name: 'Like', component: () => import(/* webpackChunkName: "about" */ '../views/Like.vue')},
+      { path: 'album', name: 'Album', component: () => import(/* webpackChunkName: "about" */ '../views/Album.vue')},
 
 
 

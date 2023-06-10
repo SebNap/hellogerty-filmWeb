@@ -1,5 +1,9 @@
 <template>
   <div class="container" ref="container" @scroll="checkScroll">
+    <img :src="require('@/assets/allblack.png')" :class="['movie-image2', ceremonyClicked ? 'movie-image22' : '']" />
+    <img :src="require('@/assets/allblack.png')" :class="['movie-image3', ceremonyClicked ? 'movie-image33' : '']" />
+    <img :src="require('@/assets/allblack.png')" :class="['movie-image4', ceremonyClicked ? 'movie-image44' : '']" />
+    <img :src="require('@/assets/allblack.png')" :class="['movie-image5', ceremonyClicked ? 'movie-image55' : '']" />
     <Header @search-result="onSearchResult" />
     <TopMovies />
     <div class="content">
@@ -48,6 +52,9 @@
   </div>
 </template>
 
+
+
+
 <script>
 import axios from "axios";
 import Header from "@/views/Header";
@@ -88,6 +95,7 @@ export default {
       this.isPlaying = isPlaying;
       // this.changeMovieRatingColor(); // 你需要实现这个函数，改变电影评分的背景颜色
       this.ceremonyClicked = !this.ceremonyClicked;
+
     });
   },
   methods: {
@@ -172,6 +180,11 @@ export default {
       this.$router.push({ name: 'Details', params: { movieId: movieId, imgUrl: movie.imgUrl} });
     },
     addToFavorites(movie) {
+      this.showHeart = true;
+      // 两秒后隐藏大红心
+      setTimeout(() => {
+        this.showHeart = false;
+      }, 1500);
       this.nickname = this.getNickname();  // Update the nickname before each request
       console.log('my nickname:',this.nickname);
 
@@ -182,20 +195,15 @@ export default {
         title: movie.name,
         voteAverage: movie.rating,
       })
-          .then(function (response) {
-            console.log(response);
-            alert('Added to favorites!');
-            // 显示大红心
-            this.showHeart = true;
+        .then(function (response) {
+          console.log(response);
+          // alert('Added to favorites!');
+          // 显示大红心
 
-            // 两秒后隐藏大红心
-            setTimeout(() => {
-              this.showHeart = false;
-            }, 2000);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
 
     },
     getNickname() {
@@ -376,13 +384,112 @@ export default {
   /*display: none;*/
   position: fixed;
   width: 1px;
-  height: 1px;
+  height: 200px;
   object-fit: cover;
-  margin-top: 35px;
+  /*margin-top: 35px;*/
   right: 0px;
   z-index: 1;
 
-  box-shadow: -300px 600px 1100px 100px rgba(103, 167, 231, 0.9999);
+  box-shadow: -300px 00px 1100px 50px #64a6e7;
+  /*filter: url(#gradient-shadow);*/
+  background: linear-gradient(to bottom right, #ffcc00 0%, #cf2626 50%, #8d1aff 100%);
+}
+.movie-image22 {
+  /*display: none;*/
+  position: fixed;
+  width: 1px;
+  height: 200px;
+  object-fit: cover;
+  /*margin-top: 35px;*/
+  right: 0px;
+  z-index: 1;
+
+  box-shadow: -300px 00px 1100px 50px #ffcc00;
+  /*filter: url(#gradient-shadow);*/
+  background: linear-gradient(to bottom right, #ffcc00 0%, #cf2626 50%, #8d1aff 100%);
+}
+.movie-image3 {
+  /*display: none;*/
+  position: fixed;
+  width: 1px;
+  height: 200px;
+  object-fit: cover;
+  /*margin-top: 35px;*/
+  right: 0px;
+  z-index: 1;
+
+  box-shadow: -1300px 00px 1100px 50px #64a6e7;
+}
+
+.movie-image33 {
+  /*display: none;*/
+  position: fixed;
+  width: 1px;
+  height: 200px;
+  object-fit: cover;
+  /*margin-top: 35px;*/
+  right: 0px;
+  z-index: 1;
+
+  box-shadow: -1300px 00px 1100px 50px #8d1aff;
+}
+
+.movie-image4 {
+  /*display: none;*/
+  position: fixed;
+  width: 1px;
+  height: 200px;
+  object-fit: cover;
+  /*margin-top: 35px;*/
+  right: 0px;
+  z-index: 1;
+
+  box-shadow: -300px 600px 1100px 50px transparent;
+  /*filter: url(#gradient-shadow);*/
+  background: linear-gradient(to bottom right, #ffcc00 0%, #cf2626 50%, #8d1aff 100%);
+}
+.movie-image44 {
+  /*display: none;*/
+  position: fixed;
+  width: 1px;
+  height: 200px;
+  object-fit: cover;
+  /*margin-top: 35px;*/
+  right: 0px;
+  z-index: 1;
+
+  box-shadow: -300px 600px 1100px 50px #ff1af4;
+  /*filter: url(#gradient-shadow);*/
+  background: linear-gradient(to bottom right, #ffcc00 0%, #cf2626 50%, #8d1aff 100%);
+}
+
+.movie-image5 {
+  /*display: none;*/
+  position: fixed;
+  width: 1px;
+  height: 200px;
+  object-fit: cover;
+  /*margin-top: 35px;*/
+  right: 0px;
+  z-index: 1;
+
+  box-shadow: -1300px 600px 1100px 50px transparent;
+  /*filter: url(#gradient-shadow);*/
+  background: linear-gradient(to bottom right, #ffcc00 0%, #cf2626 50%, #8d1aff 100%);
+}
+.movie-image55 {
+  /*display: none;*/
+  position: fixed;
+  width: 1px;
+  height: 200px;
+  object-fit: cover;
+  /*margin-top: 35px;*/
+  right: 0px;
+  z-index: 1;
+
+  box-shadow: -1300px 600px 1100px 50px #cf2626;
+  /*filter: url(#gradient-shadow);*/
+  background: linear-gradient(to bottom right, #ffcc00 0%, #cf2626 50%, #8d1aff 100%);
 }
 
 .big-heart {
@@ -392,7 +499,8 @@ export default {
   transform: translate(-50%, -50%);
   font-size: 100px;
   color: red;
-  animation: heartAnimation 2s ease-out;
+  animation: heartAnimation 1.5s ease-out;
+  z-index: 1000;
 }
 
 @keyframes heartAnimation {
@@ -401,12 +509,12 @@ export default {
     opacity: 1;
   }
   50% {
-    transform: translate(-50%, -50%) scale(1.5);
-    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(1.6);
+    opacity: 0.7;
   }
   100% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 0;
   }
 }
 

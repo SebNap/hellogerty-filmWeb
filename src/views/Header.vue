@@ -113,8 +113,10 @@ export default {
     changeMovieRatingColor() {
       const movieRatingElement = document.querySelector('.movie-rating');
       const nameColor1 = document.querySelector('.namecolor1');
+      const movieImage2 = document.querySelector('.movie-image2');
+      const movieImage3 = document.querySelector('.movie-image3');
 
-      if (this.isPlaying) {
+      if (this.isPlaying == true) {
         if (movieRatingElement) {
           movieRatingElement.style.background = 'linear-gradient( to bottom right, #ffcc00 0%, #cf2626 50%, #8d1aff 100%)';
         }
@@ -122,6 +124,12 @@ export default {
           nameColor1.style.background = 'linear-gradient( to bottom right, #ffcc00 0%, #cf2626 50%, #8d1aff 100%)';
           nameColor1.style.webkitBackgroundClip = 'text';
           nameColor1.style.webkitTextFillColor = 'transparent';
+        }
+        if (movieImage2) {
+          movieImage2.style.boxShadow = '-300px 00px 1100px 50px #ffcc00;';
+        }
+        if (movieImage3) {
+          movieImage3.style.boxShadow = '-300px 00px 1100px 50px #8d1aff;';
         }
       } else {
         if (movieRatingElement) {
@@ -131,6 +139,12 @@ export default {
           nameColor1.style.background = 'linear-gradient( to bottom right, #4880c7 0%, #4880c7 100%)';
           nameColor1.style.webkitBackgroundClip = 'text';
           nameColor1.style.webkitTextFillColor = 'transparent';
+        }
+        if (movieImage2) {
+          movieImage2.style.boxShadow = '-300px 00px 1100px 50px #64a6e7;';
+        }
+        if (movieImage3) {
+          movieImage3.style.boxShadow = '-300px 00px 1100px 50px #64a6e7;';
         }
       }
     }

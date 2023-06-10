@@ -1,5 +1,9 @@
 <template>
   <div class="container" ref="container" @scroll="checkScroll">
+    <img :src="require('@/assets/allblack.png')" :class="['movie-image2', ceremonyClicked ? 'movie-image22' : '']" />
+    <img :src="require('@/assets/allblack.png')" :class="['movie-image3', ceremonyClicked ? 'movie-image33' : '']" />
+    <img :src="require('@/assets/allblack.png')" :class="['movie-image4', ceremonyClicked ? 'movie-image44' : '']" />
+    <img :src="require('@/assets/allblack.png')" :class="['movie-image5', ceremonyClicked ? 'movie-image55' : '']" />
     <Header @search-result="onSearchResult" />
     <div class="content">
       <el-row :gutter="20">
@@ -324,13 +328,112 @@ export default {
   /*display: none;*/
   position: fixed;
   width: 1px;
-  height: 1px;
+  height: 200px;
   object-fit: cover;
-  margin-top: 35px;
+  /*margin-top: 35px;*/
   right: 0px;
   z-index: 1;
 
-  box-shadow: -300px 600px 1100px 100px rgba(103, 167, 231, 0.9999);
+  box-shadow: -300px 00px 1100px 50px #64a6e7;
+  /*filter: url(#gradient-shadow);*/
+  background: linear-gradient(to bottom right, #ffcc00 0%, #cf2626 50%, #8d1aff 100%);
+}
+.movie-image22 {
+  /*display: none;*/
+  position: fixed;
+  width: 1px;
+  height: 200px;
+  object-fit: cover;
+  /*margin-top: 35px;*/
+  right: 0px;
+  z-index: 1;
+
+  box-shadow: -300px 00px 1100px 50px #ffcc00;
+  /*filter: url(#gradient-shadow);*/
+  background: linear-gradient(to bottom right, #ffcc00 0%, #cf2626 50%, #8d1aff 100%);
+}
+.movie-image3 {
+  /*display: none;*/
+  position: fixed;
+  width: 1px;
+  height: 200px;
+  object-fit: cover;
+  /*margin-top: 35px;*/
+  right: 0px;
+  z-index: 1;
+
+  box-shadow: -1300px 00px 1100px 50px #64a6e7;
+}
+
+.movie-image33 {
+  /*display: none;*/
+  position: fixed;
+  width: 1px;
+  height: 200px;
+  object-fit: cover;
+  /*margin-top: 35px;*/
+  right: 0px;
+  z-index: 1;
+
+  box-shadow: -1300px 00px 1100px 50px #8d1aff;
+}
+
+.movie-image4 {
+  /*display: none;*/
+  position: fixed;
+  width: 1px;
+  height: 200px;
+  object-fit: cover;
+  /*margin-top: 35px;*/
+  right: 0px;
+  z-index: 1;
+
+  box-shadow: -300px 600px 1100px 50px transparent;
+  /*filter: url(#gradient-shadow);*/
+  background: linear-gradient(to bottom right, #ffcc00 0%, #cf2626 50%, #8d1aff 100%);
+}
+.movie-image44 {
+  /*display: none;*/
+  position: fixed;
+  width: 1px;
+  height: 200px;
+  object-fit: cover;
+  /*margin-top: 35px;*/
+  right: 0px;
+  z-index: 1;
+
+  box-shadow: -300px 600px 1100px 50px #ff1af4;
+  /*filter: url(#gradient-shadow);*/
+  background: linear-gradient(to bottom right, #ffcc00 0%, #cf2626 50%, #8d1aff 100%);
+}
+
+.movie-image5 {
+  /*display: none;*/
+  position: fixed;
+  width: 1px;
+  height: 200px;
+  object-fit: cover;
+  /*margin-top: 35px;*/
+  right: 0px;
+  z-index: 1;
+
+  box-shadow: -1300px 600px 1100px 50px transparent;
+  /*filter: url(#gradient-shadow);*/
+  background: linear-gradient(to bottom right, #ffcc00 0%, #cf2626 50%, #8d1aff 100%);
+}
+.movie-image55 {
+  /*display: none;*/
+  position: fixed;
+  width: 1px;
+  height: 200px;
+  object-fit: cover;
+  /*margin-top: 35px;*/
+  right: 0px;
+  z-index: 1;
+
+  box-shadow: -1300px 600px 1100px 50px #cf2626;
+  /*filter: url(#gradient-shadow);*/
+  background: linear-gradient(to bottom right, #ffcc00 0%, #cf2626 50%, #8d1aff 100%);
 }
 
 

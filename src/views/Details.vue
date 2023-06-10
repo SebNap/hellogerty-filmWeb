@@ -1,7 +1,10 @@
 <template>
   <div class="container">
     <TopMovies />
-    <img :src="require('@/assets/allblack.png')" class="movie-image2" />
+    <img :src="require('@/assets/allblack.png')" :class="['movie-image2', ceremonyClicked ? 'movie-image22' : '']" />
+    <img :src="require('@/assets/allblack.png')" :class="['movie-image3', ceremonyClicked ? 'movie-image33' : '']" />
+    <img :src="require('@/assets/allblack.png')" :class="['movie-image4', ceremonyClicked ? 'movie-image44' : '']" />
+    <img :src="require('@/assets/allblack.png')" :class="['movie-image5', ceremonyClicked ? 'movie-image55' : '']" />
     <div class="movie">
       <div class="movie-header">
 <!--        <el-card class="movie-card" >-->
@@ -64,6 +67,7 @@
 // Import axios
 import axios from 'axios';
 import TopMovies from './TopMovies.vue';
+import {EventBus} from "@/event-bus";
 
 export default {
   name: "Details",
@@ -85,7 +89,14 @@ export default {
       movieComments: [],
       newComment: '', // New property for the comment text
       colors: ['#99a9bf', '#f7ba2a', '#ff9900'],
+      ceremonyClicked: false,
     };
+  },
+  mounted() {
+    // this.fetchMovies();
+    EventBus.$on('play-status-changed', (isPlaying) => {
+      this.ceremonyClicked = !this.ceremonyClicked;
+    });
   },
   methods: {
     submitComment() {
@@ -275,14 +286,114 @@ export default {
   /*display: none;*/
   position: fixed;
   width: 1px;
-  height: 1px;
+  height: 200px;
   object-fit: cover;
-  margin-top: 35px;
+  /*margin-top: 35px;*/
   right: 0px;
   z-index: 1;
 
-  box-shadow: -400px 700px 1100px 100px rgba(103, 167, 231, 0.9999);
+  box-shadow: -300px 00px 1100px 50px #64a6e7;
+  /*filter: url(#gradient-shadow);*/
+  background: linear-gradient(to bottom right, #ffcc00 0%, #cf2626 50%, #8d1aff 100%);
 }
+.movie-image22 {
+  /*display: none;*/
+  position: fixed;
+  width: 1px;
+  height: 200px;
+  object-fit: cover;
+  /*margin-top: 35px;*/
+  right: 0px;
+  z-index: 1;
+
+  box-shadow: -300px 00px 1100px 50px #ffcc00;
+  /*filter: url(#gradient-shadow);*/
+  background: linear-gradient(to bottom right, #ffcc00 0%, #cf2626 50%, #8d1aff 100%);
+}
+.movie-image3 {
+  /*display: none;*/
+  position: fixed;
+  width: 1px;
+  height: 200px;
+  object-fit: cover;
+  /*margin-top: 35px;*/
+  right: 0px;
+  z-index: 1;
+
+  box-shadow: -1300px 00px 1100px 50px #64a6e7;
+}
+
+.movie-image33 {
+  /*display: none;*/
+  position: fixed;
+  width: 1px;
+  height: 200px;
+  object-fit: cover;
+  /*margin-top: 35px;*/
+  right: 0px;
+  z-index: 1;
+
+  box-shadow: -1300px 00px 1100px 50px #8d1aff;
+}
+
+.movie-image4 {
+  /*display: none;*/
+  position: fixed;
+  width: 1px;
+  height: 200px;
+  object-fit: cover;
+  /*margin-top: 35px;*/
+  right: 0px;
+  z-index: 1;
+
+  box-shadow: -300px 600px 1100px 50px transparent;
+  /*filter: url(#gradient-shadow);*/
+  background: linear-gradient(to bottom right, #ffcc00 0%, #cf2626 50%, #8d1aff 100%);
+}
+.movie-image44 {
+  /*display: none;*/
+  position: fixed;
+  width: 1px;
+  height: 200px;
+  object-fit: cover;
+  /*margin-top: 35px;*/
+  right: 0px;
+  z-index: 1;
+
+  box-shadow: -300px 600px 1100px 50px #ff1af4;
+  /*filter: url(#gradient-shadow);*/
+  background: linear-gradient(to bottom right, #ffcc00 0%, #cf2626 50%, #8d1aff 100%);
+}
+
+.movie-image5 {
+  /*display: none;*/
+  position: fixed;
+  width: 1px;
+  height: 200px;
+  object-fit: cover;
+  /*margin-top: 35px;*/
+  right: 0px;
+  z-index: 1;
+
+  box-shadow: -1300px 600px 1100px 50px transparent;
+  /*filter: url(#gradient-shadow);*/
+  background: linear-gradient(to bottom right, #ffcc00 0%, #cf2626 50%, #8d1aff 100%);
+}
+.movie-image55 {
+  /*display: none;*/
+  position: fixed;
+  width: 1px;
+  height: 200px;
+  object-fit: cover;
+  /*margin-top: 35px;*/
+  right: 0px;
+  z-index: 1;
+
+  box-shadow: -1300px 600px 1100px 50px #cf2626;
+  /*filter: url(#gradient-shadow);*/
+  background: linear-gradient(to bottom right, #ffcc00 0%, #cf2626 50%, #8d1aff 100%);
+}
+
 
 
 .movie-title {

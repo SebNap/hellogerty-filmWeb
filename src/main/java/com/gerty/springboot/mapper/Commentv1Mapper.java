@@ -1,6 +1,6 @@
 package com.gerty.springboot.mapper;
 
-import com.gerty.springboot.entity.Filmv3;
+import com.gerty.springboot.entity.Commentv1;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author SebNap(wyq)
- * @since 2023-06-10
+ * @since 2023-06-09
  */
-public interface Filmv3Mapper extends BaseMapper<Filmv3> {
+public interface Commentv1Mapper extends BaseMapper<Commentv1> {
 
 }

@@ -2,6 +2,7 @@ package com.gerty.springboot.controller;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.gerty.springboot.entity.Allv2;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.List;
@@ -35,10 +36,11 @@ public class Filmv3Controller {
     }
 
     //删除
-    @DeleteMapping("/{movie_i_d}")
-    public Boolean delete(@PathVariable Integer id) {
-        return filmv3Service.removeById(id);
+    @DeleteMapping("/{movieId}")
+    public Boolean delete(@PathVariable String movieId) {
+        return filmv3Service.removeById(movieId);
     }
+
 
     //查询所有
     @GetMapping
@@ -46,11 +48,13 @@ public class Filmv3Controller {
         return filmv3Service.list();
     }
 
-//    //查询一个
-//    @GetMapping("/{movie_i_d}")
-//    public Filmv3 findOne(@PathVariable Integer id) {
-//        return filmv3Service.getById(id);
-//    }
+    //查询一个
+    @GetMapping("/{movieID}")
+    public Filmv3 findOne(@PathVariable String movieId) {
+        QueryWrapper<Filmv3> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("movie_i_d", movieId);
+        return filmv3Service.getOne(queryWrapper);
+    }
 
     //分页查询
     @GetMapping("/page")

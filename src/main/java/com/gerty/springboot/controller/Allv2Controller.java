@@ -52,6 +52,15 @@ public class Allv2Controller {
         return allv2Service.getById(id);
     }
 
+    //查询一个电影详情
+    @GetMapping("/movie/{movieId}")
+    public Allv2 findMovieDetails(@PathVariable String movieId) {
+        QueryWrapper<Allv2> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("movie_i_d", movieId);
+        return allv2Service.getOne(queryWrapper);
+    }
+
+
     //分页查询
     @GetMapping("/page")
     public Page<Allv2> findPage(@RequestParam Integer pageNum,

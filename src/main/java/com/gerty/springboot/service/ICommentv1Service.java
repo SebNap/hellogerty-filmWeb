@@ -1,6 +1,6 @@
 package com.gerty.springboot.service;
 
-import com.gerty.springboot.entity.Filmv3;
+import com.gerty.springboot.entity.Commentv1;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author SebNap(wyq)
- * @since 2023-06-10
+ * @since 2023-06-09
  */
-public interface IFilmv3Service extends IService<Filmv3> {
+public interface ICommentv1Service extends IService<Commentv1> {
 
 }

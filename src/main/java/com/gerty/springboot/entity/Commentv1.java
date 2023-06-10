@@ -1,15 +1,14 @@
 package com.gerty.springboot.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-import nonapi.io.github.classgraph.json.Id;
 
 /**
  * <p>
@@ -17,28 +16,30 @@ import nonapi.io.github.classgraph.json.Id;
  * </p>
  *
  * @author SebNap(wyq)
- * @since 2023-06-10
+ * @since 2023-06-09
  */
 @Getter
 @Setter
-  @TableName("filmv3")
-@ApiModel(value = "Filmv3对象", description = "")
-public class Filmv3 implements Serializable {
+  @TableName("commentv1")
+@ApiModel(value = "Commentv1对象", description = "")
+public class Commentv1 implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @TableField("movie_i_d")
-    @TableId(type = IdType.INPUT)
+    private String content;
+
+      @TableId(value = "id", type = IdType.AUTO)
+      private Integer id;
+
+    private LocalDateTime time;
+
     private String movieID;
 
-    private String imageURL;
+    private String nickname;
 
-    private String title;
+    private String headUrl;
 
-    private String voteAverage;
-
-    private String voteCount;
+    private Integer uid;
 
 
 }
